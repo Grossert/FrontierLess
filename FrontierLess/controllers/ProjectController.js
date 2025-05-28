@@ -70,13 +70,9 @@ module.exports = class ProjectController {
     let status = req.query.status ? req.query.status : "";
     let exchangeType = req.query.exchangeType ? req.query.exchangeType : "";
     let minBudget = req.query.minBudget ? parseFloat(req.query.minBudget) : 0;
-    let maxBudget = req.query.maxBudget
-      ? parseFloat(req.query.maxBudget)
-      : Number.MAX_SAFE_INTEGER;
+    let maxBudget = req.query.maxBudget ? parseFloat(req.query.maxBudget) : Number.MAX_SAFE_INTEGER;
     let orderField = req.query.orderField ? req.query.orderField : "createdAt"; // Campo de ordenação
-    let orderDirection = req.query.orderDirection
-      ? req.query.orderDirection
-      : "ASC"; // Direção de ordenação
+    let orderDirection = req.query.orderDirection ? req.query.orderDirection : "ASC"; // Direção de ordenação
 
     try {
       const projectsData = await Project.findAll({
@@ -97,7 +93,7 @@ module.exports = class ProjectController {
           },
           {
             model: ProjectItem,
-            attributes: [],
+            attributes: ["id", "name", "description", "cost"],
           },
         ],
         where: {
@@ -110,8 +106,13 @@ module.exports = class ProjectController {
             ),
           ],
         },
-        group: ["Project.id", "User.id"],
-        order: [[literal(`\`${orderField}\``), orderDirection]], // Ordenar pelo campo definido
+        group: [
+          "Project.id",
+          "User.id",
+          "ProjectItems.id"
+        ],
+        subQuery: false,
+        order: [[literal(`\`${orderField}\``), orderDirection]],
       });
 
       const projects = projectsData.map((result) =>
