@@ -1,4 +1,6 @@
 import Link from "@/components/Link";
+import Carousel from "@/components/Carousel/carrossel";
+
 
 interface TitleProps {
   as: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
@@ -54,23 +56,31 @@ export default function Home() {
           </div>
 
           <div className="lg:w-1/2 w-full animate-slideInRight">
-            <img
-              src="/img/osaka.png"
-              alt="Osaka, Japão"
-              className="rounded-lg shadow-2xl w-full object-cover h-80 hover:scale-105 transition duration-300"
+            <Carousel
+              images={[
+                { src: "/img/osaka.png", alt: "Osaka, Japão" },
+                { src: "/img/roma.png", alt: "Roma, Itália" },
+                { src: "/img/Salvador.png", alt: "Salvador, Brasil" },
+                { src: "/img/Nova York.png", alt: "Nova York, Estados Unidos" },
+              ]}
             />
           </div>
+
         </section>
 
         {/* Section 2 */}
         <section className="flex flex-col lg:flex-row items-center gap-12">
-          <div className="lg:w-1/2 w-full order-2 lg:order-1 animate-slideInLeft">
-            <img
-              src="/img/roma.png"
-              alt="Roma, Itália"
-              className="rounded-lg shadow-2xl w-full object-cover h-80 hover:scale-105 transition duration-300"
+          <div className="lg:w-1/2 w-full animate-slideInRight">
+            <Carousel
+              images={[
+                { src: "/img/osaka.png", alt: "Osaka, Japão" },
+                { src: "/img/roma.png", alt: "Roma, Itália" },
+                { src: "/img/Salvador.png", alt: "Salvador, Brasil" },
+                { src: "/img/Nova York.png", alt: "Nova York, Estados Unidos" },
+              ]}
             />
           </div>
+
 
           <div className="lg:w-1/2 order-1 lg:order-2">
             <Title as="h2">Acesse nosso Feed</Title>
