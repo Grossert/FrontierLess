@@ -1,17 +1,17 @@
+// /components/Link/index.tsx
 import NextLink from 'next/link';
+import React from 'react';
 
 interface Props {
-    children?: React.ReactNode,
-    href?: any
+  href: string;
+  children: React.ReactNode;
+  className?: string;
 }
 
-export default function Link({ children, href }: Props) {
-    return (
-        <div>
-            <NextLink href={href} className="font-semibold text-emerald-600 hover:text-emerald-500">
-                {children}
-            </NextLink>
-        </div>
-
-    );
+export default function Link({ href, children, className }: Props) {
+  return (
+    <NextLink href={href} className={className}>
+      {children}
+    </NextLink>
+  );
 }
