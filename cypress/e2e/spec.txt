@@ -31,7 +31,7 @@ describe('template spec', () => {
     cy.get('#birthdate').type('2000-01-01')
     cy.get('button[type="submit"]').click()
   })
-  it('C2H2: TTestar cadastrar novo usuario sem inserir uma confirmação de senha', () => {
+  it('C2H2: Testar cadastrar novo usuario sem inserir uma confirmação de senha', () => {
     cy.get('nav a[href="/register"]').click()
     cy.get('#name').type('Teste01')
     cy.get('#email').type('Teste01@gmail.com')
