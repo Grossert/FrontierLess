@@ -27,17 +27,22 @@ export default function ProjectProvider({ children }: Props) {
 
     const addProject = async (newProject: iProject) => {
         try {
-            if (newProject.destination === "" && newProject.exchangeType === "") {
-                setProject((prevProjects) => [...prevProjects, newProject]);
-                return;
+            if (newProject.destination === "" || newProject.exchangeType === "") {
+            console.warn("Campos obrigatórios não preenchidos.");
+            return;
             }
+
             const data = await addProjectService(newProject);
-            console.log(data.message)
+            console.log(data.message);
+
+            // Atualiza a lista local de projetos com o novo projeto adicionado
+            setProject((prevProjects) => [...prevProjects, data.project]);
 
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
-    }
+    };
+
 
     const updateProject = async (projectID: number, updatedProject: iProject) => {
         try {

@@ -10,6 +10,7 @@ export default interface iProject {
     steps: iStep[];
     comments: iComment[];
     User: iUser;
+    userId?: iUser["id"];
     createdAt?: Date,
     updatedAt?: Date,
     budget?: number;

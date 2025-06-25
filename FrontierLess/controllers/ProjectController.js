@@ -127,34 +127,39 @@ module.exports = class ProjectController {
     }
   }
 
-  static async createProject(req, res) {
+ static async createProject(req, res) {
     const { destination, exchangeType } = req.body;
-    let user = User.findByPk(req.session.userid)
-
-    const newProject = {
-      destination: destination,
-      status: "progredindo",
-      exchangeType: exchangeType,
-      UserId: req.session.userid,
-    };
-
+    
     try {
-      await Project.create(newProject);
+        const user = await User.findByPk(req.session.userid);
 
-      await NotificationController.notifyUserFollowersOnProjectUpdate(user.id, newProject.id, 'criou um ');
+        if (!user) {
+            return res.status(400).send("Usuário não encontrado");
+        }
 
-      req.session.save(() => {
-        return res
-          .status(200)
-          .send({ message: "Projeto criado com sucesso.", newProject });
-      });
+        const newProject = {
+            destination: destination,
+            status: "progredindo",
+            exchangeType: exchangeType,
+            UserId: user.id,
+        };
 
+        const created = await Project.create(newProject);
+
+        await NotificationController.notifyUserFollowersOnProjectUpdate(user.id, created.id, 'criou um ');
+
+        req.session.save(() => {
+            return res
+                .status(200)
+                .send({ message: "Projeto criado com sucesso.", newProject: created });
+        });
 
     } catch (err) {
-      console.error(err);
-      return res.status(500).send("Erro ao criar projeto");
+        console.error(err);
+        return res.status(500).send("Erro ao criar projeto");
     }
-  }
+}
+
 
   static async removeProject(req, res) {
     const id = req.params.id;

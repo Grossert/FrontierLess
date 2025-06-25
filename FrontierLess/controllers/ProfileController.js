@@ -7,7 +7,7 @@ module.exports = class ProfileController {
         try {
             const userProfile = await User.findOne({ 
                 where: { id: req.session.userid },
-                raw: true 
+                attributes: ['id', 'name', 'email'],
             });
 
             if (!userProfile) {
@@ -15,8 +15,11 @@ module.exports = class ProfileController {
             }
 
             const userProjects = await Project.findAll({ 
-                where: { UserId: req.session.userid }, 
-                raw: true 
+                where: { UserId: req.session.userid },
+                include: {
+                    model: User,
+                    attributes: ['id', 'name', 'email'],
+                },
             });
 
             // Retorna o perfil do usuário e os projetos em um objeto JSON
